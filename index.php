@@ -731,6 +731,25 @@ h1,h2,h3,h4{
     padding:11px 12px;
 }
 
+.checkout-form{
+    grid-template-columns:1fr 1fr;
+}
+
+.checkout-form input,
+.checkout-form .btn{
+    min-width:0;
+    width:100%;
+}
+
+.checkout-form .btn{
+    min-height:52px;
+    white-space:normal;
+}
+
+.checkout-form input[type="tel"]{
+    grid-column:1 / -1;
+}
+
 .empty-panel{
     background:#f8feff;
     border:2px dashed rgba(0,207,232,.25);
@@ -2414,6 +2433,13 @@ video{
             <strong>Total</strong>
             <strong id="cart-total">R$ 0,00</strong>
         </div>
+        <form class="session-form checkout-form" id="checkout-form">
+            <input type="text" id="checkout-name" placeholder="Nome completo" required>
+            <input type="email" id="checkout-email" placeholder="E-mail" required>
+            <input type="tel" id="checkout-phone" placeholder="Telefone / WhatsApp">
+            <button type="submit" class="btn btn-primary btn-small checkout-payment-button" data-payment-method="pix">Pagar com Pix</button>
+            <button type="submit" class="btn btn-outline btn-small checkout-payment-button" data-payment-method="cartao">Cartao credito/debito</button>
+        </form>
         <div class="session-form">
             <input type="text" id="session-name" placeholder="Nome da sessão de compra">
             <button type="button" class="btn btn-primary btn-small" id="save-session">Salvar sessão</button>
@@ -2946,6 +2972,8 @@ endif;
             const cartList = document.getElementById('cart-list');
             const cartTotal = document.getElementById('cart-total');
             const cartCount = document.getElementById('cart-count');
+            const checkoutForm = document.getElementById('checkout-form');
+            const checkoutButtons = document.querySelectorAll('.checkout-payment-button');
             const sessionName = document.getElementById('session-name');
             const saveSessionButton = document.getElementById('save-session');
             const cartSessions = document.getElementById('cart-sessions');
@@ -3494,8 +3522,15 @@ endif;
 
                 if (!cartItems.length) {
                     cartList.innerHTML = '<div class="empty-panel">Seu carrinho está vazio. Adicione produtos pela vitrine.</div>';
+                    checkoutButtons.forEach(function (button) {
+                        button.disabled = true;
+                    });
                     return;
                 }
+
+                checkoutButtons.forEach(function (button) {
+                    button.disabled = false;
+                });
 
                 cartList.innerHTML = cartItems.map(function (item) {
                     const image = item.image
@@ -3641,6 +3676,20 @@ endif;
                 saveCart();
                 renderCart();
                 showToast('Produto adicionado ao carrinho');
+            }
+
+            function getCheckoutItems() {
+                return cartItems.filter(function (item) {
+                    return item && item.name && Number(item.price || 0) > 0;
+                }).map(function (item) {
+                    return {
+                        id: item.id,
+                        name: item.name,
+                        category: item.category,
+                        price: Number(item.price || 0),
+                        image: item.image || ''
+                    };
+                });
             }
             function getProductImage(product) {
                 return String(product.image || '').trim();
@@ -3847,6 +3896,64 @@ endif;
                     saveCart();
                     renderCart();
                     showToast('Item removido do carrinho');
+                });
+            }
+
+            if (checkoutForm) {
+                checkoutForm.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const submitter = event.submitter || document.activeElement;
+                    const paymentMethod = submitter && submitter.dataset ? submitter.dataset.paymentMethod : 'pix';
+                    const checkoutItems = getCheckoutItems();
+                    if (!checkoutItems.length) {
+                        showToast('Adicione itens antes de pagar');
+                        return;
+                    }
+
+                    checkoutButtons.forEach(function (button) {
+                        button.disabled = true;
+                    });
+
+                    const originalText = submitter ? submitter.textContent : '';
+                    if (submitter) submitter.textContent = 'Abrindo pagamento...';
+
+                    fetch('actions/criarPagamento.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Accept: 'application/json',
+                            'X-Requested-With': 'fetch'
+                        },
+                        body: JSON.stringify({
+                            cliente: {
+                                nome: document.getElementById('checkout-name').value.trim(),
+                                email: document.getElementById('checkout-email').value.trim(),
+                                telefone: document.getElementById('checkout-phone').value.trim()
+                            },
+                            forma_pagamento: paymentMethod,
+                            itens: checkoutItems
+                        })
+                    })
+                        .then(function (response) {
+                            return response.json().then(function (data) {
+                                if (!response.ok || !data.sucesso || !data.checkout_url) {
+                                    throw new Error(data.mensagem || 'Nao foi possivel iniciar o pagamento.');
+                                }
+
+                                return data.checkout_url;
+                            });
+                        })
+                        .then(function (checkoutUrl) {
+                            window.location.href = checkoutUrl;
+                        })
+                        .catch(function (error) {
+                            showToast(error.message || 'Nao foi possivel iniciar o pagamento');
+                            checkoutButtons.forEach(function (button) {
+                                button.disabled = false;
+                            });
+                            if (submitter) submitter.textContent = originalText;
+                        });
                 });
             }
 
