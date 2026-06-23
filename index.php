@@ -1372,17 +1372,20 @@ body.dark-mode .section-title{
 }
 
 body.dark-mode .icon-button{
-    background:#1f343d;
+    background:transparent;
+    border-color:transparent;
+    box-shadow:none;
 }
 
-body.dark-mode .action-icon{
-    filter:brightness(0) invert(1);
+body.dark-mode .icon-button:hover{
+    background:transparent;
+    box-shadow:none;
 }
 
 body.dark-mode #account-button,
 body.dark-mode #settings-button{
-    background:#2a4651;
-    border:1px solid rgba(126,238,255,.28);
+    background:transparent;
+    border-color:transparent;
 }
 
 body.dark-mode #account-button .action-icon,
@@ -2387,7 +2390,7 @@ video{
                 </nav>
                 <div class="user-actions">
                     <button type="button" class="icon-button" title="Ver carrinho" id="verCarrinho">
-                        <img class="action-icon" src="img/cart-icon.png" alt="Carrinho">
+                        <img class="action-icon" src="img/icon-cart.svg" alt="Carrinho">
                         <span class="cart-count" id="cart-count">0</span>
                     </button>
                     <button type="button" class="icon-button" title="Minha conta" id="account-button"><img class="action-icon" src="img/icon-account.svg" alt="Conta"></button>
@@ -2492,7 +2495,7 @@ video{
                 </div>
                 <div class="home-shortcuts">
                     <button type="button" class="shortcut-card" data-page-target="produtos">
-                        <span class="shortcut-icon"><img class="ui-icon large" src="img/cart-icon.png" alt=""></span>
+                        <span class="shortcut-icon"><img class="ui-icon large" src="img/icon-cart.svg" alt=""></span>
                         <span class="shortcut-title">Produtos</span>
                         <small>Veja a vitrine, cadastre e remova itens.</small>
                     </button>
@@ -2528,7 +2531,7 @@ video{
                 <div class="pet-tabs">
                     <button class="tab-btn active" data-pet="caes"><img class="ui-icon" src="img/icon-dog.svg" alt=""> Cães</button>
                     <button class="tab-btn" data-pet="gatos"><img class="ui-icon" src="img/icon-cat.svg" alt=""> Gatos</button>
-                    <button class="tab-btn" data-pet="loja"><img class="ui-icon" src="img/cart-icon.png" alt=""> Produtos</button>
+                    <button class="tab-btn" data-pet="loja"><img class="ui-icon" src="img/icon-cart.svg" alt=""> Produtos</button>
                 </div>
 
                 <!-- Produtos para Cães -->
