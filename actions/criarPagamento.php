@@ -118,9 +118,28 @@ try {
     $nome = trim((string) ($cliente['nome'] ?? ''));
     $email = trim((string) ($cliente['email'] ?? ''));
     $telefone = trim((string) ($cliente['telefone'] ?? ''));
+    $cep = trim((string) ($cliente['cep'] ?? ''));
+    $endereco = trim((string) ($cliente['endereco'] ?? ''));
+    $numero = trim((string) ($cliente['numero'] ?? ''));
+    $complemento = trim((string) ($cliente['complemento'] ?? ''));
+    $bairro = trim((string) ($cliente['bairro'] ?? ''));
+    $cidade = trim((string) ($cliente['cidade'] ?? ''));
+    $estado = strtoupper(trim((string) ($cliente['estado'] ?? '')));
 
     if ($nome === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         responderJson(400, ['sucesso' => false, 'mensagem' => 'Informe nome e e-mail validos.']);
+    }
+
+    $cepNumeros = preg_replace('/\D+/', '', $cep);
+    if (
+        strlen($cepNumeros) !== 8 ||
+        $endereco === '' ||
+        $numero === '' ||
+        $bairro === '' ||
+        $cidade === '' ||
+        !preg_match('/^[A-Z]{2}$/', $estado)
+    ) {
+        responderJson(400, ['sucesso' => false, 'mensagem' => 'Informe endereco completo com CEP valido.']);
     }
 
     if (!is_array($itensRecebidos) || count($itensRecebidos) === 0) {
@@ -166,13 +185,50 @@ try {
     $pdo = $database->conectar();
 
     $stmt = $pdo->prepare(
-        'INSERT INTO pedidos (cliente_nome, cliente_email, cliente_telefone, total, status, itens_json, criado_em)
-         VALUES (:nome, :email, :telefone, :total, :status, :itens, NOW())'
+        'INSERT INTO pedidos (
+            cliente_nome,
+            cliente_email,
+            cliente_telefone,
+            cliente_cep,
+            cliente_endereco,
+            cliente_numero,
+            cliente_complemento,
+            cliente_bairro,
+            cliente_cidade,
+            cliente_estado,
+            total,
+            status,
+            itens_json,
+            criado_em
+        )
+         VALUES (
+            :nome,
+            :email,
+            :telefone,
+            :cep,
+            :endereco,
+            :numero,
+            :complemento,
+            :bairro,
+            :cidade,
+            :estado,
+            :total,
+            :status,
+            :itens,
+            NOW()
+         )'
     );
     $stmt->execute([
         ':nome' => $nome,
         ':email' => $email,
         ':telefone' => $telefone,
+        ':cep' => $cepNumeros,
+        ':endereco' => $endereco,
+        ':numero' => $numero,
+        ':complemento' => $complemento,
+        ':bairro' => $bairro,
+        ':cidade' => $cidade,
+        ':estado' => $estado,
         ':total' => $total,
         ':status' => 'aguardando_pagamento',
         ':itens' => json_encode($itensRecebidos, JSON_UNESCAPED_UNICODE)
@@ -212,6 +268,11 @@ try {
             'email' => $email,
             'phone' => [
                 'number' => preg_replace('/\D+/', '', $telefone)
+            ],
+            'address' => [
+                'zip_code' => $cepNumeros,
+                'street_name' => $endereco,
+                'street_number' => $numero
             ]
         ],
         'external_reference' => (string) $pedidoId,
@@ -226,7 +287,11 @@ try {
         'payment_methods' => $paymentMethods,
         'metadata' => [
             'pedido_id' => $pedidoId,
-            'forma_pagamento' => $formaPagamento
+            'forma_pagamento' => $formaPagamento,
+            'cliente_cep' => $cepNumeros,
+            'cliente_bairro' => $bairro,
+            'cliente_cidade' => $cidade,
+            'cliente_estado' => $estado
         ]
     ];
 

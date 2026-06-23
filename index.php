@@ -746,7 +746,7 @@ h1,h2,h3,h4{
     white-space:normal;
 }
 
-.checkout-form input[type="tel"]{
+.checkout-form .checkout-full{
     grid-column:1 / -1;
 }
 
@@ -2437,6 +2437,13 @@ video{
             <input type="text" id="checkout-name" placeholder="Nome completo" required>
             <input type="email" id="checkout-email" placeholder="E-mail" required>
             <input type="tel" id="checkout-phone" placeholder="Telefone / WhatsApp">
+            <input type="text" id="checkout-cep" placeholder="CEP" inputmode="numeric" maxlength="9" required>
+            <input type="text" id="checkout-address" class="checkout-full" placeholder="Endereço / Rua" required>
+            <input type="text" id="checkout-number" placeholder="Número" required>
+            <input type="text" id="checkout-complement" placeholder="Complemento">
+            <input type="text" id="checkout-neighborhood" placeholder="Bairro" required>
+            <input type="text" id="checkout-city" placeholder="Cidade" required>
+            <input type="text" id="checkout-state" placeholder="Estado / UF" maxlength="2" required>
             <button type="submit" class="btn btn-primary btn-small checkout-payment-button" data-payment-method="pix">Pagar com Pix</button>
             <button type="submit" class="btn btn-outline btn-small checkout-payment-button" data-payment-method="cartao">Cartao credito/debito</button>
         </form>
@@ -3929,7 +3936,14 @@ endif;
                             cliente: {
                                 nome: document.getElementById('checkout-name').value.trim(),
                                 email: document.getElementById('checkout-email').value.trim(),
-                                telefone: document.getElementById('checkout-phone').value.trim()
+                                telefone: document.getElementById('checkout-phone').value.trim(),
+                                cep: document.getElementById('checkout-cep').value.trim(),
+                                endereco: document.getElementById('checkout-address').value.trim(),
+                                numero: document.getElementById('checkout-number').value.trim(),
+                                complemento: document.getElementById('checkout-complement').value.trim(),
+                                bairro: document.getElementById('checkout-neighborhood').value.trim(),
+                                cidade: document.getElementById('checkout-city').value.trim(),
+                                estado: document.getElementById('checkout-state').value.trim()
                             },
                             forma_pagamento: paymentMethod,
                             itens: checkoutItems
