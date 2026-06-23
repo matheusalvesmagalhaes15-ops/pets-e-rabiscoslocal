@@ -557,8 +557,8 @@ h1,h2,h3,h4{
     justify-content:center;
     min-width:20px;
     position:absolute;
-    right:-8px;
-    top:-8px;
+    right:-6px;
+    top:-7px;
 }
 
 .overlay-backdrop{
@@ -1081,7 +1081,7 @@ body{
 .cart-count{
     background:#04b8cf;
     color:white;
-    right:-8px;
+    right:1px;
     top:-8px;
 }
 
@@ -2390,15 +2390,15 @@ video{
                 </nav>
                 <div class="user-actions">
                     <button type="button" class="icon-button" title="Ver carrinho" id="verCarrinho">
-                        <img class="action-icon" src="img/menu-cart.png" alt="Carrinho">
+                        <img class="action-icon" src="img/icon-cart.svg" alt="Carrinho">
                         <span class="cart-count" id="cart-count">0</span>
                     </button>
-                    <button type="button" class="icon-button" title="Minha conta" id="account-button"><img class="action-icon" src="img/menu-account.png" alt="Conta"></button>
+                    <button type="button" class="icon-button" title="Minha conta" id="account-button"><img class="action-icon" src="img/icon-account.svg" alt="Conta"></button>
                     <button type="button" class="icon-button" title="Buscar produtos" id="search-button">
-                        <img class="action-icon" src="img/menu-search.png" alt="Buscar">
+                        <img class="action-icon" src="img/icon-search.svg" alt="Buscar">
                     </button>
                     <button type="button" class="icon-button" title="Configurações" id="settings-button">
-                        <img class="action-icon" src="img/menu-settings.png" alt="Configurações">
+                        <img class="action-icon" src="img/icon-settings.svg" alt="Configurações">
                     </button>
                 </div>
             </div>
@@ -2419,7 +2419,7 @@ video{
             <button type="button" class="panel-close" data-close-panel>×</button>
         </div>
         <div class="search-box">
-            <img src="img/menu-search.png" alt="">
+            <img src="img/icon-search.svg" alt="">
             <input type="search" id="site-search-input" placeholder="Digite o que deseja encontrar">
         </div>
         <div class="result-list" id="search-results"></div>
@@ -2472,7 +2472,7 @@ video{
             <button type="button" class="panel-close" data-close-panel>×</button>
         </div>
         <div class="search-box">
-            <img class="action-icon" src="img/menu-settings.png" alt="Configurações">
+            <img class="action-icon" src="img/icon-settings.svg" alt="Configurações">
             <input type="search" id="settings-search-input" placeholder="Buscar configuração">
         </div>
         <div class="settings-list" id="settings-list"></div>
@@ -2495,7 +2495,7 @@ video{
                 </div>
                 <div class="home-shortcuts">
                     <button type="button" class="shortcut-card" data-page-target="produtos">
-                        <span class="shortcut-icon"><img class="ui-icon large" src="img/menu-cart.png" alt=""></span>
+                        <span class="shortcut-icon"><img class="ui-icon large" src="img/icon-cart.svg" alt=""></span>
                         <span class="shortcut-title">Produtos</span>
                         <small>Veja a vitrine, cadastre e remova itens.</small>
                     </button>
@@ -2531,7 +2531,7 @@ video{
                 <div class="pet-tabs">
                     <button class="tab-btn active" data-pet="caes"><img class="ui-icon" src="img/icon-dog.svg" alt=""> Cães</button>
                     <button class="tab-btn" data-pet="gatos"><img class="ui-icon" src="img/icon-cat.svg" alt=""> Gatos</button>
-                    <button class="tab-btn" data-pet="loja"><img class="ui-icon" src="img/menu-cart.png" alt=""> Produtos</button>
+                    <button class="tab-btn" data-pet="loja"><img class="ui-icon" src="img/icon-cart.svg" alt=""> Produtos</button>
                 </div>
 
                 <!-- Produtos para Cães -->
@@ -3407,12 +3407,12 @@ endif;
 
             function getIconForType(type, title) {
                 const text = (type + ' ' + title).toLowerCase();
-                if (type === 'opcao') return 'img/menu-settings.png';
-                if (type === 'marca') return 'img/icon-brand.svg';
-                if (type === 'kit') return 'img/icon-gift.svg';
-                if (text.includes('gato') || text.includes('whiskas')) return 'img/icon-cat.svg';
-                if (text.includes('cão') || text.includes('cachorro') || text.includes('pedigree')) return 'img/icon-dog.svg';
-                return 'img/icon-paw.svg';
+                if (type === 'opcao') return 'icon-settings.svg';
+                if (type === 'marca') return 'icon-brand.svg';
+                if (type === 'kit') return 'icon-gift.svg';
+                if (text.includes('gato') || text.includes('whiskas')) return 'icon-cat.svg';
+                if (text.includes('cão') || text.includes('cachorro') || text.includes('pedigree')) return 'icon-dog.svg';
+                return 'icon-paw.svg';
             }
 
             function getCardType(card) {
@@ -3563,7 +3563,7 @@ endif;
 
                 cartSessions.innerHTML = purchaseSessions.map(function (session) {
                     return '<div class="session-item">' +
-                        '<span class="result-emoji"><img src="img/menu-account.png" alt=""></span>' +
+                        '<span class="result-emoji"><img src="img/icon-account.svg" alt=""></span>' +
                         '<span><strong>' + escapeHtml(session.name) + '</strong><small>' + escapeHtml(session.date) + ' · ' + session.items.length + ' itens · ' + formatPrice(session.total) + '</small></span>' +
                         '<span class="managed-product-actions">' +
                             '<button type="button" class="btn btn-outline btn-small" data-load-session="' + session.id + '">Abrir</button>' +
