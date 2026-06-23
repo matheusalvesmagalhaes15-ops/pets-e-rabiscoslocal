@@ -1034,9 +1034,7 @@ body{
 }
 
 .action-icon{
-    display:block;
     height:28px;
-    object-fit:contain;
     width:28px;
 }
 
@@ -2392,7 +2390,7 @@ video{
                     </button>
                     <button type="button" class="icon-button" title="Minha conta" id="account-button"><img class="action-icon" src="img/icon-account.svg" alt="Conta"></button>
                     <button type="button" class="icon-button" title="Buscar produtos" id="search-button">
-                        <img class="action-icon" src="img/icon-search.svg" alt="Buscar">
+                        <img class="action-icon" src="img/search-icon.png" alt="Buscar">
                     </button>
                     <button type="button" class="icon-button" title="Configurações" id="settings-button">
                         <img class="action-icon" src="img/icon-settings.svg" alt="Configurações">
@@ -2416,7 +2414,7 @@ video{
             <button type="button" class="panel-close" data-close-panel>×</button>
         </div>
         <div class="search-box">
-            <img src="img/icon-search.svg" alt="">
+            <img src="img/search-icon.png" alt="">
             <input type="search" id="site-search-input" placeholder="Digite o que deseja encontrar">
         </div>
         <div class="result-list" id="search-results"></div>
