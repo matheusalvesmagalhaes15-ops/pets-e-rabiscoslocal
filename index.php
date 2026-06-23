@@ -750,6 +750,31 @@ h1,h2,h3,h4{
     grid-column:1 / -1;
 }
 
+.checkout-payment-actions{
+    display:grid;
+    gap:12px;
+    grid-column:1 / -1;
+    grid-template-columns:1fr 1fr;
+}
+
+.checkout-form .checkout-payment-button{
+    align-items:center;
+    background:linear-gradient(135deg,var(--cyan-primary),var(--cyan-dark));
+    border:0;
+    color:white !important;
+    display:flex;
+    font-weight:900;
+    justify-content:center;
+    min-height:58px;
+    padding:12px 16px;
+    text-align:center;
+}
+
+.checkout-form .checkout-payment-button:hover{
+    background:linear-gradient(135deg,var(--cyan-dark),var(--cyan-primary));
+    color:white !important;
+}
+
 .empty-panel{
     background:#f8feff;
     border:2px dashed rgba(0,207,232,.25);
@@ -2347,6 +2372,10 @@ video{
         grid-template-columns:1fr !important;
     }
 
+    .checkout-payment-actions{
+        grid-template-columns:1fr 1fr;
+    }
+
     .result-item,
     .cart-item,
     .session-item,
@@ -2360,6 +2389,12 @@ video{
     .setting-card button{
         grid-column:1 / -1;
         width:100%;
+    }
+}
+
+@media (max-width: 420px){
+    .checkout-payment-actions{
+        grid-template-columns:1fr;
     }
 }
 </style>
@@ -2444,8 +2479,10 @@ video{
             <input type="text" id="checkout-neighborhood" placeholder="Bairro" required>
             <input type="text" id="checkout-city" placeholder="Cidade" required>
             <input type="text" id="checkout-state" placeholder="Estado / UF" maxlength="2" required>
-            <button type="submit" class="btn btn-primary btn-small checkout-payment-button" data-payment-method="pix">Pagar com Pix</button>
-            <button type="submit" class="btn btn-outline btn-small checkout-payment-button" data-payment-method="cartao">Cartao credito/debito</button>
+            <div class="checkout-payment-actions">
+                <button type="submit" class="btn btn-primary btn-small checkout-payment-button" data-payment-method="pix">Pagar com Pix</button>
+                <button type="submit" class="btn btn-primary btn-small checkout-payment-button" data-payment-method="cartao">Cartao credito/debito</button>
+            </div>
         </form>
         <div class="session-form">
             <input type="text" id="session-name" placeholder="Nome da sessão de compra">
