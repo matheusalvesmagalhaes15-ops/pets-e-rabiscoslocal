@@ -1024,8 +1024,8 @@ body{
     border:0;
     border-radius:50%;
     box-shadow:none;
-    height:56px;
-    width:56px;
+    height:52px;
+    width:52px;
 }
 
 .icon-button:hover{
@@ -1035,9 +1035,9 @@ body{
 
 .action-icon{
     display:block;
-    height:42px;
+    height:28px;
     object-fit:contain;
-    width:42px;
+    width:28px;
 }
 
 .settings-symbol{
@@ -1846,8 +1846,8 @@ body.dark-mode .hero-grid::before{
     }
 
     .action-icon{
-        height:36px;
-        width:36px;
+        height:24px;
+        width:24px;
     }
 
     .status-bar{
